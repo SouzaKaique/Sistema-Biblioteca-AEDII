@@ -1,4 +1,4 @@
-# Sistema de Biblioteca – Arquivos Indexados
+# Sistema de Gerenciamento de Biblioteca – Arquivos Indexados
 
 ## 📌 Descrição
 
