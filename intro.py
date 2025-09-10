@@ -1,7 +1,7 @@
 """
-Trabalho Arquivos Indexados - Algoritmos e Estruturas de Dados II
-Aluno: Kaique Alexandre Souza Kubota
-Curso: Análise e Desenvolvimento de Sistemas - 2° Ano T1
+* Trabalho Arquivos Indexados - Algoritmos e Estruturas de Dados II
+* Aluno: Kaique Alexandre Souza Kubota
+* Curso: Análise e Desenvolvimento de Sistemas - 2° Ano T1
 --------------------------------------
 ! Dificuldades:
 ! Parte de salvar e carregar os dados das árvores em arquivos txt 
@@ -106,6 +106,9 @@ def reconstruir_arvores(lista_registros, tipo):
         elif tipo == "categorias":
             registro = Categorias(int(r[0]), r[1])
             raiz = inserir(raiz, registro.cod_categoria, registro)
+        elif tipo == "livros":
+            registro = Livros(int(r[0]), r[1], int(r[2]), int(r[3]), int(r[4]), r[5])
+            raiz = inserir(raiz, registro.cod_livro, registro)
         elif tipo == "emprestimos":
             registro = Emprestimos(int(r[0]), int(r[1]), int(r[2]), r[3], r[4], r[5])
             raiz = inserir(raiz, registro.cod_emprestimo, registro)
@@ -356,14 +359,6 @@ def limpar_tela():
 def pausar():
     input("\nPressione Enter para continuar...")
 
-"""
-! FALTANDO NO MENU
-7) Permitir as seguintes consultas:
-7.1) Livros que estão emprestado 
-7.2) Livros que estão com a devolução atrasada 
-7.3) Quantidade de livros emprestados por período (data inicial e data final) 
-"""
-
 def menu_principal():
     global arvore_cidades, arvore_cursos, arvore_alunos, arvore_autores, arvore_categorias, arvore_livros, arvore_emprestimos
 
@@ -588,8 +583,6 @@ salvar_em_txt("categorias.txt", coletar_registros(arvore_categorias, "categorias
 salvar_em_txt("emprestimos.txt", coletar_registros(arvore_emprestimos, "emprestimos"))
 
 """
-! Listar livros emprestados não está funcionando aparentemente
 ! Verificar exibição de algumas funções
 ! Melhorar exibição de títulos do menu
-! Problema em salvar os livros, aparece no arquivo txt porem nao reconhece apos listar. pode ser diretório errado ou o arquivo txt de livros nao esta ne mesma pasta do py
 """
