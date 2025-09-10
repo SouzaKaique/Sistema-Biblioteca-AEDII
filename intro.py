@@ -3,10 +3,10 @@ Trabalho Arquivos Indexados - Algoritmos e Estruturas de Dados II
 Aluno: Kaique Alexandre Souza Kubota
 Curso: Análise e Desenvolvimento de Sistemas - 2° Ano T1
 --------------------------------------
-Dificuldades:
-Parte de salvar e carregar os dados das árvores em arquivos txt 
-Algumas funções de consulta
-Funções de empréstimo e devolução
+! Dificuldades:
+! Parte de salvar e carregar os dados das árvores em arquivos txt 
+! Algumas funções de consulta
+! Funções de empréstimo e devolução
 """
 
 import os
@@ -429,6 +429,7 @@ def menu_principal():
             autor = int(input("Código do Autor: "))
             categoria = int(input("Código da Categoria: "))
             ano = int(input("Ano: "))
+
             arvore_livros = inserir(arvore_livros, cod, Livros(cod, titulo, autor, categoria, ano))
             print("\nLivro cadastrado com sucesso!")
             pausar()
@@ -568,7 +569,6 @@ if __name__ == "__main__":
     arvore_livros = None
     arvore_emprestimos = None
 
-    dados_txt = carregar_txt('livros.txt')
     arvore_cidades = reconstruir_arvores(carregar_txt('cidades.txt'), "cidades")
     arvore_cursos = reconstruir_arvores(carregar_txt('cursos.txt'), "cursos")
     arvore_alunos = reconstruir_arvores(carregar_txt('alunos.txt'), "alunos")
@@ -591,4 +591,5 @@ salvar_em_txt("emprestimos.txt", coletar_registros(arvore_emprestimos, "empresti
 ! Listar livros emprestados não está funcionando aparentemente
 ! Verificar exibição de algumas funções
 ! Melhorar exibição de títulos do menu
+! Problema em salvar os livros, aparece no arquivo txt porem nao reconhece apos listar. pode ser diretório errado ou o arquivo txt de livros nao esta ne mesma pasta do py
 """
