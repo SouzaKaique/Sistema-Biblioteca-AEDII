@@ -175,19 +175,19 @@ def leitura_exaustiva(raiz, tipo):
 
     def exibir(no):
         if tipo == "cidades":
-            print(f"{no.registro.cod_cidade} | {no.registro.descricao} | {no.registro.estado}")
+            print(f"\n{no.registro.cod_cidade} | {no.registro.descricao} | {no.registro.estado}")
         elif tipo == "cursos":
-            print(f"{no.registro.cod_curso} | {no.registro.descricao}")
+            print(f"\n{no.registro.cod_curso} | {no.registro.descricao}")
         elif tipo == "alunos":
-            print(f"{no.registro.cod_aluno} | {no.registro.nome} | Curso: {no.registro.cod_curso} | Cidade: {no.registro.cod_cidade}")
+            print(f"\n{no.registro.cod_aluno} | {no.registro.nome} | Curso: {no.registro.cod_curso} | Cidade: {no.registro.cod_cidade}")
         elif tipo == "autores":
-            print(f"{no.registro.cod_autor} | {no.registro.nome} | Cidade: {no.registro.cod_cidade}")
+            print(f"\n{no.registro.cod_autor} | {no.registro.nome} | Cidade: {no.registro.cod_cidade}")
         elif tipo == "categorias":
-            print(f"{no.registro.cod_categoria} | {no.registro.descricao}")
+            print(f"\n{no.registro.cod_categoria} | {no.registro.descricao}")
         elif tipo == "livros":
-            print(f"{no.registro.cod_livro} | {no.registro.titulo} | Autor: {no.registro.cod_autor} | Categoria: {no.registro.cod_categoria} | Ano: {no.registro.ano_publicacao} | {no.registro.disponibilidade}")
+            print(f"\n{no.registro.cod_livro} | {no.registro.titulo} | Autor: {no.registro.cod_autor} | Categoria: {no.registro.cod_categoria} | Ano: {no.registro.ano_publicacao} | {no.registro.disponibilidade}")
         elif tipo == "emprestimos":
-            print(f"{no.registro.cod_emprestimo} | Livro: {no.registro.cod_livro} | Aluno: {no.registro.cod_aluno} | {no.registro.data_emprestimo} | {no.registro.data_devolucao} | {no.registro.devolvido}")
+            print(f"\n{no.registro.cod_emprestimo} | Livro: {no.registro.cod_livro} | Aluno: {no.registro.cod_aluno} | {no.registro.data_emprestimo} | {no.registro.data_devolucao} | {no.registro.devolvido}")
 
     percorrer_em_ordem(raiz, exibir)
 
@@ -201,14 +201,19 @@ def ler_int(prompt):
             print("Valor inválido — digite um número inteiro.")
 
 # Função de confirmação da exclusão
-def confirmar_exclusao(arvore, codigo, descricao, tipo):
+def confirmar_exclusao(arvore, codigo, descricao, tipo, acao_extra=None):
     no = buscar(arvore, codigo)
     if not no:
         print(f"\n{tipo} não encontrado.")
         return arvore
+
+    print(f"\nInformações de {tipo} a ser excluída:\n")
     
-    confirmar = input(f"Confirmar exclusão de {descricao(no)}? (s/n): ").strip().lower()
+    print(descricao(no))
+    confirmar = input(f"\nConfirmar exclusão deste {tipo}? (s/n): ").strip().lower()
     if confirmar == 's':
+        if acao_extra:
+            acao_extra(no)
         arvore = excluir(arvore, codigo)
         print(f"\n{tipo} excluído com sucesso!")
         salvar_arquivos()
@@ -308,6 +313,7 @@ def menu_principal():
         if opcao == '1':
             menu_inserir()
 
+
         elif opcao == '2':
             menu_consultar()
 
@@ -337,7 +343,8 @@ def menu_principal():
             pausar()
 
 def menu_inserir():
-    global arvore_cidades
+    global arvore_cidades, arvore_cursos, arvore_categorias, arvore_autores, arvore_alunos, arvore_livros, arvore_emprestimos
+    
     while True:
         limpar_tela()
         print("\n - 𝙸𝚗𝚜𝚎𝚛𝚒𝚛 𝙳𝚊𝚍𝚘𝚜 - \n")
@@ -403,7 +410,7 @@ def menu_inserir():
             if autor_info:
                 cidade_info = buscar(arvore_cidades, autor_info.registro.cod_cidade)
                 if cidade_info:
-                    print(f"\nO autor é: {autor_info.registro.nome}, da cidade {cidade_info.registro.descricao}")
+                    print(f"\nO autor é: {autor_info.registro.nome}, da cidade: {cidade_info.registro.descricao}")
                 else:
                     print(f"\nO autor é: {autor_info.registro.nome}, cidade não encontrada")
             else:
@@ -429,40 +436,68 @@ def menu_inserir():
             pausar()
 
 def menu_consultar():
-        global arvore_livros, arvore_autores, arvore_categorias
-    
-        while True:
-            limpar_tela()
-            print("\n - 𝙲𝚘𝚗𝚜𝚞𝚕𝚝𝚊𝚛 - \n")
-            print("1 - Consultar Alunos")
-            print("2 - Consultar Autores")
-            print("3 - Consultar Cidades")
-            print("0 - Voltar ao menu principal")
-    
-            opcao = input("\nEscolha uma opção: ")
-    
-            if opcao == '1':
-                exibir_alunos(arvore_alunos, arvore_cursos, arvore_cidades)
-                pausar()
-            elif opcao == '2':
-                exibir_autores(arvore_autores, arvore_cidades)
-                pausar()
-            elif opcao == '3':
-                buscar_cidade = int(input("\nCódigo da Cidade: "))
-                cidade_no = buscar(arvore_cidades, buscar_cidade)       
-                if cidade_no:
-                    print("\nCidade encontrada:")
-                    print(f"Código: {cidade_no.registro.cod_cidade}")
-                    print(f"Descrição: {cidade_no.registro.descricao}")
-                    print(f"Estado: {cidade_no.registro.estado}")
-                else:
-                    print("\nCidade não encontrada.")
-                pausar()    
-            elif opcao == '0':
-                break
+    global arvore_alunos, arvore_autores, arvore_cidades, arvore_cursos
+
+    while True:
+        limpar_tela()
+        print("\n - 𝙲𝚘𝚗𝚜𝚞𝚕𝚝𝚊𝚛 - \n")
+        print("1 - Consultar Alunos")
+        print("2 - Consultar Autores")
+        print("3 - Consultar Cidades")
+        print("0 - Voltar ao menu principal")
+
+        opcao = input("\nEscolha uma opção: ")
+
+        if opcao == '1':
+            buscar_aluno = ler_int("\nCódigo do Aluno: ")
+            aluno_no = buscar(arvore_alunos, buscar_aluno)
+            if aluno_no:
+                aluno = aluno_no.registro
+                curso_no = buscar(arvore_cursos, aluno.cod_curso)
+                curso_desc = curso_no.registro.descricao if curso_no else "Curso não encontrado"
+                cidade_no = buscar(arvore_cidades, aluno.cod_cidade)
+                cidade_desc = cidade_no.registro.descricao if cidade_no else "Cidade não encontrada"
+                estado = cidade_no.registro.estado if cidade_no else "-"
+                print("\nAluno encontrado!\n")
+                print(f"Código: {aluno.cod_aluno}")
+                print(f"Nome: {aluno.nome}")
+                print(f"Curso: {curso_desc}")
+                print(f"Cidade: {cidade_desc} - {estado}")
             else:
-                print("Opção inválida!")
-                pausar()
+                print("\nAluno não encontrado.")
+            pausar()
+        elif opcao == '2':
+            buscar_autor = ler_int("\nCódigo do Autor: ")
+            autor_no = buscar(arvore_autores, buscar_autor)
+            if autor_no:
+                autor = autor_no.registro
+                cidade_no = buscar(arvore_cidades, autor.cod_cidade)
+                cidade_desc = cidade_no.registro.descricao if cidade_no else "Cidade não encontrada"
+                estado = cidade_no.registro.estado if cidade_no else "-"
+                print("\nAutor encontrado!\n")
+                print(f"Código: {autor.cod_autor}")
+                print(f"Nome: {autor.nome}")
+                print(f"Cidade: {cidade_desc} - {estado}")
+            else:
+                print("\nAutor não encontrado.")
+            pausar()
+        elif opcao == '3':
+            buscar_cidade = ler_int("\nCódigo da Cidade: ")
+            cidade_no = buscar(arvore_cidades, buscar_cidade)
+            if cidade_no:
+                cidade = cidade_no.registro
+                print("\nCidade encontrada!\n")
+                print(f"Código: {cidade.cod_cidade}")
+                print(f"Descrição: {cidade.descricao}")
+                print(f"UF: {cidade.estado}")
+            else:
+                print("\nCidade não encontrada.")
+            pausar()
+        elif opcao == '0':
+            break
+        else:
+            print("Opção inválida!")
+            pausar()
 
 def menu_exclusao():
     global arvore_cidades, arvore_cursos, arvore_alunos, arvore_autores, arvore_categorias, arvore_livros, arvore_emprestimos
@@ -623,10 +658,11 @@ def incluir_emprestimo(arvore_emprestimos, arvore_livros, arvore_categorias, arv
     return arvore_emprestimos
 
 def realizar_devolucao(arvore_emprestimos, arvore_livros):
-    print("\n- 𝙳𝚎𝚟𝚘𝚕𝚞𝚌̧𝚊̃𝚘 𝚍𝚎 𝙻𝚒𝚟𝚛𝚘𝚜 -")
+    print("\n- 𝙳𝚎𝚟𝚘𝚕𝚞𝚌̧𝚊̃𝚘 𝚍𝚎 𝙻𝚒𝚟𝚛𝚘𝚜 \n-")
 
     cod_emprestimo = int(input("Código do Empréstimo: "))
     emprestimo_no = buscar(arvore_emprestimos, cod_emprestimo)
+    
 
     if not emprestimo_no:
         print("Empréstimo não encontrado!")
@@ -640,7 +676,7 @@ def realizar_devolucao(arvore_emprestimos, arvore_livros):
 
     data_devolucao = datetime.strptime(emprestimo.data_devolucao, "%d/%m/%Y")
     if datetime.now() > data_devolucao:
-        print("Atenção: O livro está com devolução atrasada!")
+        print("O livro está com devolução atrasada!")
 
     confirmar = input("Confirmar devolução? (s/n): ").strip().lower()
     if confirmar != 's':
@@ -659,7 +695,7 @@ def realizar_devolucao(arvore_emprestimos, arvore_livros):
 def livros_emprestados(arvore_emprestimos, arvore_livros):
     print("\n- Livros Emprestados -")
 
-    cod_livro = int(input("\nDigite o código do livro: "))
+    cod_livro = int(input("\nDigite o código do livro: \n"))
     livro_no = buscar(arvore_livros, cod_livro)
 
     if not livro_no:
@@ -669,7 +705,6 @@ def livros_emprestados(arvore_emprestimos, arvore_livros):
     exibir_livro(arvore_livros, arvore_autores, arvore_cidades, arvore_categorias, cod_livro)
     print(f"Status: {livro_no.registro.disponibilidade}")
 
-    print("\n- Lista de Livros Atualmente Emprestados -")
 
     def verificar_no(no):
         emprestimo = no.registro
@@ -735,6 +770,7 @@ def listar_livros_em_ordem(arvore_livros, raiz_autores, raiz_categorias):
 def sobrescrever_arquivo(nome_arquivo, raiz):
     
     registros = []
+
     def coletar_registros(no):
         if no:
             coletar_registros(no.esquerda)
