@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Biblioteca Acadêmica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <button
+      class="back-btn"
+      onclick="showMainMenu()"
+      style="display: none"
+      id="backBtn"
+    >
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="m15 18-6-6 6-6" />
+      </svg>
+      Voltar ao Menu
+    </button>
+
+    <div class="container">
+      <div class="header">
+        <div class="header-content">
+          <div class="header-icon">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"
+              />
+            </svg>
+          </div>
+          <h1>Sistema de Biblioteca Acadêmica</h1>
+          <p>
+            Plataforma completa para gerenciamento de livros, alunos e
+            empréstimos
+          </p>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-number">1,247</div>
+              <div class="stat-label">Livros Cadastrados</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">342</div>
+              <div class="stat-label">Alunos Ativos</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">89</div>
+              <div class="stat-label">Empréstimos Ativos</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="mainMenu" class="main-menu">
+        <div class="menu-card" onclick="showSection('inserir')">
+          <div class="card-icon">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 5v14m-7-7h14" />
+            </svg>
+          </div>
+          <h3>Inserir Dados</h3>
+          <p>
+            Cadastre novos registros no sistema de forma rápida e organizada
+          </p>
+          <div class="card-features">
+            <span class="feature-tag">Cidades</span>
+            <span class="feature-tag">Cursos</span>
+            <span class="feature-tag">Alunos</span>
+            <span class="feature-tag">Livros</span>
+          </div>
+        </div>
+
+        <div class="menu-card" onclick="showSection('consultar')">
+          <div class="card-icon">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
+            </svg>
+          </div>
+          <h3>Consultar Dados</h3>
+          <p>
+            Visualize e pesquise informações cadastradas com filtros avançados
+          </p>
+          <div class="card-features">
+            <span class="feature-tag">Busca Rápida</span>
+            <span class="feature-tag">Filtros</span>
+            <span class="feature-tag">Exportar</span>
+          </div>
+        </div>
+
+        <div class="menu-card" onclick="showSection('emprestimo')">
+          <div class="card-icon">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"
+              />
+              <path d="M9 10h6m-6 4h6" />
+            </svg>
+          </div>
+          <h3>Empréstimos</h3>
+          <p>Gerencie empréstimos e devoluções com controle de prazos</p>
+          <div class="card-features">
+            <span class="feature-tag">Controle de Prazo</span>
+            <span class="feature-tag">Notificações</span>
+            <span class="feature-tag">Histórico</span>
+          </div>
+        </div>
+
+        <div class="menu-card" onclick="showSection('relatorios')">
+          <div class="card-icon">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M3 3v18h18" />
+              <path d="m19 9-5 5-4-4-3 3" />
+            </svg>
+          </div>
+          <h3>Relatórios</h3>
+          <p>Gere relatórios detalhados e análises estatísticas</p>
+          <div class="card-features">
+            <span class="feature-tag">Estatísticas</span>
+            <span class="feature-tag">Gráficos</span>
+            <span class="feature-tag">PDF</span>
+          </div>
+        </div>
+
+        <div class="menu-card" onclick="showSection('exclusao')">
+          <div class="card-icon">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"
+              />
+            </svg>
+          </div>
+          <h3>Excluir Dados</h3>
+          <p>Remova registros do sistema com segurança e controle</p>
+          <div class="card-features">
+            <span class="feature-tag">Backup</span>
+            <span class="feature-tag">Confirmação</span>
+            <span class="feature-tag">Log</span>
+          </div>
+        </div>
+
+        <div class="menu-card" onclick="showSection('sobre')">
+          <div class="card-icon">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 16v-4m0-4h.01" />
+            </svg>
+          </div>
+          <h3>Sobre o Sistema</h3>
+          <p>Informações sobre o projeto e documentação técnica</p>
+          <div class="card-features">
+            <span class="feature-tag">Documentação</span>
+            <span class="feature-tag">Suporte</span>
+            <span class="feature-tag">Versão</span>
+          </div>
+        </div>
+      </div>
+
+<div id="inserir" class="form-section">
+  <div class="section-header">
+    <h2>Inserir Novos Dados</h2>
+    <p>Cadastre novos registros no sistema</p>
+  </div>
+  <div class="form-container">
+    <form action="{{ url_for('inserir') }}" method="POST">
+      <label for="tipoInsercao">Tipo de Registro</label>
+      <select id="tipoInsercao" name="tipoInsercao" required>
+          <option value="Cidade">Cidade</option>
+          <option value="Livro">Livro</option>
+          <option value="Usuário">Usuário</option>
+      </select>
+
+      <label for="codigo">Código</label>
+      <input type="text" id="codigo" name="codigo" required />
+
+      <label for="nome">Nome/Descrição</label>
+      <input type="text" id="nome" name="nome" required />
+
+      <button type="submit">Cadastrar</button>
+    </form>
+  </div>
+</div>
+
+      <div id="consultar" class="form-section">
+        <h2>🔍 Consultar Dados</h2>
+        <div class="form-group">
+          <label for="tipoConsulta">Tipo de Consulta:</label>
+          <select id="tipoConsulta">
+            <option value="">Selecione o tipo</option>
+            <option value="alunos">Alunos</option>
+            <option value="autores">Autores</option>
+            <option value="cidades">Cidades</option>
+            <option value="livros">Livros</option>
+          </select>
+        </div>
+        <button type="button" class="btn">Consultar</button>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Nome</th>
+              <th>Informações Adicionais</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>001</td>
+              <td>João Silva</td>
+              <td>Curso: Análise e Desenvolvimento | Cidade: São Paulo</td>
+              <td><span class="status-badge status-disponivel">Ativo</span></td>
+            </tr>
+            <tr>
+              <td>002</td>
+              <td>Maria Santos</td>
+              <td>Curso: Engenharia de Software | Cidade: Rio de Janeiro</td>
+              <td><span class="status-badge status-disponivel">Ativo</span></td>
+            </tr>
+            <tr>
+              <td>101</td>
+              <td>Python para Iniciantes</td>
+              <td>Autor: José Silva | Categoria: Programação</td>
+              <td>
+                <span class="status-badge status-emprestado">Emprestado</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="emprestimo" class="form-section">
+        <h2>📖 Gerenciar Empréstimos</h2>
+        <form>
+          <div class="form-group">
+            <label for="tipoOperacao">Tipo de Operação:</label>
+            <select id="tipoOperacao">
+              <option value="">Selecione a operação</option>
+              <option value="emprestar">Realizar Empréstimo</option>
+              <option value="devolver">Realizar Devolução</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="codigoLivro">Código do Livro:</label>
+            <input
+              type="number"
+              id="codigoLivro"
+              placeholder="Digite o código do livro"
+            />
+          </div>
+          <div class="form-group">
+            <label for="codigoAluno">Código do Aluno:</label>
+            <input
+              type="number"
+              id="codigoAluno"
+              placeholder="Digite o código do aluno"
+            />
+          </div>
+          <div class="form-group">
+            <label for="dataEmprestimo">Data do Empréstimo:</label>
+            <input type="date" id="dataEmprestimo" />
+          </div>
+          <button type="button" class="btn">Processar</button>
+          <button type="button" class="btn btn-secondary">
+            Consultar Empréstimos
+          </button>
+        </form>
+      </div>
+
+      <div id="relatorios" class="form-section">
+        <h2>📊 Relatórios e Consultas</h2>
+        <div class="form-group">
+          <label for="tipoRelatorio">Tipo de Relatório:</label>
+          <select id="tipoRelatorio">
+            <option value="">Selecione o relatório</option>
+            <option value="exaustiva">Leitura Exaustiva</option>
+            <option value="periodo">Empréstimos por Período</option>
+            <option value="atrasados">Livros Atrasados</option>
+            <option value="estatisticas">Estatísticas Gerais</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="dataInicio">Data Início:</label>
+          <input type="date" id="dataInicio" />
+        </div>
+        <div class="form-group">
+          <label for="dataFim">Data Fim:</label>
+          <input type="date" id="dataFim" />
+        </div>
+        <button type="button" class="btn">Gerar Relatório</button>
+      </div>
+
+      <div id="exclusao" class="form-section">
+        <h2>🗑️ Excluir Registros</h2>
+        <div
+          style="
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+          "
+        >
+          <strong>⚠️ Atenção:</strong> A exclusão de registros é permanente e
+          não pode ser desfeita.
+        </div>
+        <form>
+          <div class="form-group">
+            <label for="tipoExclusao">Tipo de Registro:</label>
+            <select id="tipoExclusao">
+              <option value="">Selecione o tipo</option>
+              <option value="cidade">Cidade</option>
+              <option value="curso">Curso</option>
+              <option value="aluno">Aluno</option>
+              <option value="autor">Autor</option>
+              <option value="categoria">Categoria</option>
+              <option value="livro">Livro</option>
+              <option value="emprestimo">Empréstimo</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="codigoExclusao">Código do Registro:</label>
+            <input
+              type="number"
+              id="codigoExclusao"
+              placeholder="Digite o código para excluir"
+            />
+          </div>
+          <button type="button" class="btn" style="background: #dc3545">
+            Excluir
+          </button>
+          <button type="button" class="btn btn-secondary">
+            Buscar Registro
+          </button>
+        </form>
+      </div>
+
+      <div id="sobre" class="form-section">
+        <h2>ℹ️ Sobre o Sistema</h2>
+        <div
+          style="
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            line-height: 1.8;
+          "
+        >
+          <h3 style="color: #2c3e50; margin-bottom: 20px">
+            Trabalho Arquivos Indexados
+          </h3>
+          <p>
+            <strong>Disciplina:</strong> Algoritmos e Estruturas de Dados II
+          </p>
+          <p><strong>Aluno:</strong> Kaique Alexandre Souza Kubota</p>
+          <p>
+            <strong>Curso:</strong> Análise e Desenvolvimento de Sistemas - 2°
+            Ano T1
+          </p>
+
+          <h4 style="color: #2c3e50; margin: 30px 0 15px 0">
+            Funcionalidades Implementadas:
+          </h4>
+          <ul style="margin-left: 20px">
+            <li>Estruturas de dados em árvore binária</li>
+            <li>Operações de inserção, busca e exclusão</li>
+            <li>Persistência de dados em arquivos texto</li>
+            <li>Sistema completo de empréstimos e devoluções</li>
+            <li>Consultas e relatórios diversos</li>
+            <li>Interface de usuário intuitiva</li>
+          </ul>
+
+          <h4 style="color: #2c3e50; margin: 30px 0 15px 0">
+            Tecnologias Utilizadas:
+          </h4>
+          <ul style="margin-left: 20px">
+            <li>Python para lógica de negócio</li>
+            <li>Estruturas de dados em árvore</li>
+            <li>Manipulação de arquivos</li>
+            <li>HTML/CSS para interface web</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
